@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main() 
+{
+    int fs, bs, fd, bd, time;
+    scanf("%d%d%d%d%d",&fs, &bs, &fd, &bd, &time);
+    if(fs>0 && bs>0 && fd>0 && bd>0 && time>0)
+    {
+        bd = -bd;
+        if(fs == bs)       printf("NO");
+        else if(fs >= fd)    printf("F %d",fd * time);
+        else
+        {
+            int totalStepCount = 0, position = 0;
+            while(1)
+            {
+                if(position + fs >= fd)
+                {
+                    printf("F %d",(totalStepCount + fd - position) * time);
+                    break;
+                }
+                else
+                {
+                    position = position + fs;
+                    totalStepCount = totalStepCount + fs;
+                }
+                if(position - bs <= bd)
+                {
+                    printf("B %d",(totalStepCount - bd + position) * time);
+                break;
+                }
+                else
+                {
+                    position = position - bs;
+                    totalStepCount = totalStepCount + bs;
+                }
+            }
+        }
+    }
+    return 0;
+}
