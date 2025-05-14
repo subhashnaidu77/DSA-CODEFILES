@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int i, j, N;
+    scanf("%d", &N);
+
+    int *matrix[N];
+    for (i = 0; i < N; i++) 
+        matrix[i] = (int*) malloc(sizeof(int) * N);
+
+    for (i = 0; i < N; i++)
+    {
+        for (j = 0; j < N; j++)
+            scanf("%d", &matrix[i][j]);
+    }
+
+    int isDiagonal = 1;
+    for (i = 0; i < N && isDiagonal; i++) {
+        for (j = 0; j < N; j++) {
+            if (i != j && i + j != N - 1 && matrix[i][j] != 0) {
+                isDiagonal = 0;
+                break;
+            }
+        }
+    }
+
+    if (isDiagonal)
+        printf("yes\n");
+    else
+        printf("no\n");
+
+    for (i = 0; i < N; i++) {
+        free(matrix[i]);
+    }
+
+    return 0;
+}
