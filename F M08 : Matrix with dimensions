@@ -1,0 +1,62 @@
+#include <stdio.h>
+
+#define MAX 1000
+
+int original[MAX][MAX];
+int N;
+int rotation_count = 0;  // 0 to 3
+
+// Get element at (K, L) in rotated view
+int getRotatedElement(int K, int L) {
+    int x, y;
+    K--; L--;  
+
+    if (rotation_count == 0) {
+        x = K; y = L;
+    } else if (rotation_count == 1) {
+        x = N - 1 - L; y = K;
+    } else if (rotation_count == 2) {
+        x = N - 1 - K; y = N - 1 - L;
+    } else if (rotation_count == 3) {
+        x = L; y = N - 1 - K;
+    }
+
+    return original[x][y];
+}
+
+
+void updateOriginal(int X, int Y, int Z) {
+    original[X - 1][Y - 1] = Z;
+}
+
+int main() {
+    scanf("%d", &N);
+
+   
+    for (int i = 0; i < N; i++)
+        for (int j = 0; j < N; j++)
+            scanf("%d", &original[i][j]);
+
+    char op;
+    while (1) {
+        scanf(" %c", &op);
+        if (op == '-') break;
+
+        if (op == 'A') {
+            int S;
+            scanf("%d", &S);
+            rotation_count = (rotation_count + (S / 90)) % 4;
+        } else if (op == 'Q') {
+            int K, L;
+            scanf("%d %d", &K, &L);
+            int result = getRotatedElement(K, L);
+            printf("%d\n", result);
+        } else if (op == 'U') {
+            int X, Y, Z;
+            scanf("%d %d %d", &X, &Y, &Z);
+            updateOriginal(X, Y, Z);
+        }
+    }
+
+    return 0;
+}
